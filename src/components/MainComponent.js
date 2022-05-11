@@ -14,13 +14,13 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-      dishes: state.dishes,
-      comments: state.comments,
-      promotions: state.promotions,
-      leaders: state.leaders
+        dishes: state.dishes,
+        comments: state.comments,
+        promotions: state.promotions,
+        leaders: state.leaders
     }
-  }
-  
+}
+
 
 class Main extends Component {
 
@@ -50,16 +50,22 @@ class Main extends Component {
                 />
             );
         }
+        const DishWithId = ({ match }) => {
+            return (
+                <DishDetail comments={this.props.comments} dishes={this.props.dishes} selectedDish={match.params.dishId} />
+            );
+        };
         return (
             <div>
                 <Header />
                 <div>
-                <Switch>
-                    <Route path='/home' component={HomePage} />
-                    <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} selectedDish={this.state.selectedDish} onClick={(dishId) => this.onDishSelect(dishId)} comments={this.state.comments} />} />
-                    <Route exact path='/contactus' component={Contact} />
-                    <Redirect to="/home" />
-                </Switch>
+                    <Switch>
+                        <Route path='/home' component={HomePage} />
+                        <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
+                        <Route path='/menu/:dishId' component={DishWithId} />
+                        <Route exact path='/contactus' component={Contact} />
+                        <Redirect to="/home" />
+                    </Switch>
                 </div>
                 <Footer />
             </div>
